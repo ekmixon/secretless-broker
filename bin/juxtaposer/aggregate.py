@@ -38,7 +38,7 @@ def process_log(logfile_path, baseline_backend):
                 baselines.append(time)
                 baselines = baselines[-BASELINE_SMOOTHING_POINTS:]
             else:
-                if not backend in percentages:
+                if backend not in percentages:
                     percentages[backend] = []
 
                 baseline_average = 0.0
@@ -49,9 +49,12 @@ def process_log(logfile_path, baseline_backend):
 
     print("Baseline backend:", baseline_backend)
     if not baselines:
-        raise RuntimeError("ERROR: Could not find any datapoints for '{}'!".format(baseline_backend))
+        raise RuntimeError(
+            f"ERROR: Could not find any datapoints for '{baseline_backend}'!"
+        )
 
-    for backend in percentages.keys():
+
+    for backend in percentages:
         datapoint_count = len(percentages[backend])
         print("Backend:", backend)
         print("Count:", datapoint_count)
